@@ -9,12 +9,23 @@ def init_db
 	@db.results_as_hash = true
 end
 
+
+# before вызывается каждый раз при перезагрузке
+# любой страницы
+
 before do
+	# инициализация БД
+
 	init_db
 end
 
+# вызывается каждый раз при инициализации приложения: 
+# когда изменился код программы или перезагрузилась страница
+
 configure do
+
 	init_db
+	# создает таблицу, если таблица не существует
 	@db.execute 'CREATE TABLE IF NOT EXISTS Posts 
 	(
 		id INTEGER PRIMARY KEY AUTOINCREMENT, 
@@ -27,11 +38,17 @@ get '/' do
 	erb "Hello! <a href=\"https://github.com/bootstrap-ruby/sinatra-bootstrap\">Original</a> pattern has been modified for <a href=\"http://rubyschool.us/\">Ruby School</a>"			
 end
 
+# обрабочик get-запроса /new
+# (браузер получает страницу с сервера)
 get '/new' do
-  erb :new
+	erb :new
 end
 
+# обрабочик post-запроса /new
+# (браузер отправляет данные на сервер)
 post '/new' do
-  content = params[:content]
-  erb "You typed: #{content}"
+	# получаем переменную из post-запроса
+
+	content = params[:content]
+	erb "You typed: #{content}"
 end
