@@ -35,7 +35,7 @@ configure do
 end
 
 get '/' do
-	erb "Hello! <a href=\"https://github.com/bootstrap-ruby/sinatra-bootstrap\">Original</a> pattern has been modified for <a href=\"http://rubyschool.us/\">Ruby School</a>"			
+	erb :index
 end
 
 # обрабочик get-запроса /new
@@ -55,6 +55,8 @@ post '/new' do
 		@error = "Type post text"
 		return erb :new
 	end
+
+	# сохранение данных в БД
 
 	@db.execute 'insert into Posts (content, created_date) values (?, datetime())', [content]
 
